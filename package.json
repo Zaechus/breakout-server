@@ -1,0 +1,16 @@
+{
+  "name": "breakout-server",
+  "version": "1.0.0",
+  "description": "The game Breakout written in JS and Rust.",
+  "repository": "",
+  "main": "index.js",
+  "author": "Maxwell Anderson",
+  "license": "MIT",
+  "dependencies": {
+    "breakout-wasm": "file:breakout-wasm/pkg",
+    "webpack": "^4.39.2"
+  },
+  "devDependencies": {
+    "webpack-cli": "^3.3.7"
+  }
+}
