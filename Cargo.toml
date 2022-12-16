@@ -1,8 +1,9 @@
 [package]
 name = "breakout-server"
 version = "0.1.0"
-authors = ["Maxwell Anderson <maxwell.brayden.anderson@gmail.com>"]
-edition = "2018"
+edition = "2021"
 
 [dependencies]
-rocket = "0.4"
+axum = "0.6"
+tokio = { version = "1.23", features = ["full"] }
+tower-http = { version = "0.3", features = ["full"] }

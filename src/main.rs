@@ -1,22 +1,19 @@
-#![feature(proc_macro_hygiene, decl_macro)]
+use axum::{http::StatusCode, response::IntoResponse, routing::get_service, Router};
+use tower_http::services::ServeDir;
 
-#[macro_use]
-extern crate rocket;
+#[tokio::main]
+async fn main() {
+    let serve_dir = get_service(ServeDir::new("docs")).handle_error(handle_error);
+    let app = Router::new()
+        .fallback_service(serve_dir)
+        .into_make_service();
 
-use std::path::{Path, PathBuf};
-
-use rocket::response::NamedFile;
-
-#[get("/")]
-fn index() -> Option<NamedFile> {
-    NamedFile::open(Path::new("dist/index.html")).ok()
+    axum::Server::bind(&"0.0.0.0:7878".parse().unwrap())
+        .serve(app)
+        .await
+        .unwrap();
 }
 
-#[get("/<file..>")]
-fn files(file: PathBuf) -> Option<NamedFile> {
-    NamedFile::open(Path::new("dist/").join(file)).ok()
-}
-
-fn main() {
-    rocket::ignite().mount("/", routes![index, files]).launch();
+async fn handle_error(_err: std::io::Error) -> impl IntoResponse {
+    StatusCode::INTERNAL_SERVER_ERROR
 }

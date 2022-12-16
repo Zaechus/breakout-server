@@ -1,9 +1,11 @@
-import { Ball, Brick, Paddle } from "breakout-wasm";
+import init, { Ball, Brick, Paddle } from "./breakout_wasm.js";
 
-export function breakout_game(canvasId, canvasWidth, canvasHeight) {
-    const canvas = document.getElementById(canvasId);
-    canvas.width = canvasWidth;
-    canvas.height = canvasHeight;
+async function run() {
+    await init();
+
+    const canvas = document.getElementById("gameCanvas");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
     var mouseX = canvas.width / 2;
 
@@ -102,4 +104,4 @@ export function breakout_game(canvasId, canvasWidth, canvasHeight) {
     setInterval(draw, 10);
 };
 
-breakout_game("gameCanvas", window.innerWidth, window.innerHeight);
+run();
